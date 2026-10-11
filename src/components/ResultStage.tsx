@@ -17,8 +17,7 @@ import {
   Check,
   ShieldCheck,
   QrCode,
-  Flame,
-  HelpCircle
+  Flame
 } from 'lucide-react';
 
 interface ResultStageProps {
@@ -49,7 +48,6 @@ export const ResultStage: React.FC<ResultStageProps> = ({
     initialClaim?.claim_status === 'claimed'
   );
 
-  // Trigger celebration confetti for high tiers
   useEffect(() => {
     if (score >= 3) {
       try {
@@ -58,9 +56,7 @@ export const ResultStage: React.FC<ResultStageProps> = ({
           spread: 70,
           origin: { y: 0.6 },
         });
-      } catch (err) {
-        // Safe fallback if canvas not available
-      }
+      } catch (err) {}
     }
   }, [score]);
 
@@ -85,122 +81,121 @@ export const ResultStage: React.FC<ResultStageProps> = ({
   const getTierIcon = () => {
     switch (rewardTier.tier) {
       case 'Diamond':
-        return <Sparkles className="w-8 h-8 text-cyan-300" />;
+        return <Sparkles className="w-7 h-7 text-retro-cyan" />;
       case 'Gold':
-        return <Trophy className="w-8 h-8 text-amber-300" />;
+        return <Trophy className="w-7 h-7 text-retro-amber" />;
       case 'Silver':
-        return <Medal className="w-8 h-8 text-slate-200" />;
+        return <Medal className="w-7 h-7 text-slate-300" />;
       case 'Bronze':
-        return <Award className="w-8 h-8 text-amber-600" />;
+        return <Award className="w-7 h-7 text-amber-600" />;
       default:
-        return <Target className="w-8 h-8 text-slate-400" />;
+        return <Target className="w-7 h-7 text-slate-400" />;
     }
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-8 animate-scale-in">
-      {/* Header Banner */}
+    <div className="w-full max-w-4xl mx-auto px-4 py-8">
+      {/* 90s Victory Banner Header */}
       <div className="text-center mb-8">
-        <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300">
-          Challenge Completed
+        <span className="font-pixel text-[10px] px-3 py-1 bg-black text-retro-green border-2 border-black shadow-hard-sm uppercase">
+          ★ STAGE CLEARED ★
         </span>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-3">
-          Memory & Challenge Results
+        <h2 className="font-pixel text-2xl sm:text-3xl text-white mt-4">
+          MISSION RESULTS
         </h2>
-        <p className="text-sm text-slate-400 mt-1">
-          Scene: <span className="text-slate-200 font-semibold">{image.title}</span> • Mode: <span className="text-slate-200 font-semibold">{session.difficulty}</span>
+        <p className="text-xs font-sans text-slate-400 mt-2">
+          SCENE: <strong className="text-white">{image.title}</strong> • MODE: <strong className="text-white">{session.difficulty.toUpperCase()}</strong>
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8">
-        {/* Score & Reward Tier Card */}
-        <div className="md:col-span-5 glass-panel-elevated rounded-3xl p-6 sm:p-7 border border-slate-700/80 flex flex-col justify-between text-center relative overflow-hidden">
-          {/* Subtle background glow */}
-          <div className="absolute -top-16 -right-16 w-44 h-44 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-
+        {/* Score & Reward Tier Neo-Brutalist Card */}
+        <div className="md:col-span-5 retro-panel-elevated p-6 flex flex-col justify-between text-center">
           <div>
-            {/* Score Ring */}
-            <div className="relative inline-flex items-center justify-center mb-4">
-              <div className="w-28 h-28 rounded-full border-4 border-slate-800 bg-slate-900/80 flex flex-col items-center justify-center shadow-xl">
-                <span className="text-4xl font-black text-white font-mono">{score}</span>
-                <span className="text-xs text-slate-400 font-medium uppercase tracking-wider">
-                  Out of 5
+            {/* 16-Bit Digital Score Counter */}
+            <div className="inline-flex items-center justify-center mb-4">
+              <div className="w-28 h-28 bg-black border-2 border-black shadow-hard flex flex-col items-center justify-center">
+                <span className="font-pixel text-4xl text-retro-green font-black">
+                  {score}
+                </span>
+                <span className="font-pixel text-[9px] text-slate-400 mt-1 uppercase">
+                  OUT OF 5
                 </span>
               </div>
             </div>
 
-            {/* Tier Badge */}
-            <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 mb-4">
+            {/* Reward Tier Badge */}
+            <div className="p-4 bg-black border-2 border-black shadow-hard-sm mb-4 text-center">
               <div className="flex items-center justify-center gap-2 mb-2">
                 {getTierIcon()}
-                <h3 className="text-xl font-black text-white tracking-wide">
+                <h3 className="font-pixel text-xs sm:text-sm text-white">
                   {rewardTier.title}
                 </h3>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-xs font-sans text-slate-300 leading-relaxed">
                 {rewardTier.description}
               </p>
             </div>
           </div>
 
-          {/* Reward Claim Database Action Section */}
-          <div className="pt-4 border-t border-slate-800">
+          {/* Database Claim Action */}
+          <div className="pt-4 border-t-2 border-black">
             {claim && (
-              <div className="mb-4 p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 text-left">
-                <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
-                  <span className="flex items-center gap-1 font-mono">
-                    <QrCode className="w-3.5 h-3.5 text-indigo-400" />
+              <div className="mb-4 p-3 bg-black border-2 border-black shadow-hard-sm text-left">
+                <div className="flex items-center justify-between text-xs text-slate-300 mb-1">
+                  <span className="flex items-center gap-1 font-pixel text-[10px] text-retro-cyan">
+                    <QrCode className="w-3.5 h-3.5" />
                     {claim.claim_code}
                   </span>
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                  <span className={`px-2 py-0.5 border border-black font-pixel text-[9px] ${
                     claimSuccess
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                      : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                      ? 'bg-retro-green text-black font-bold'
+                      : 'bg-retro-amber text-black font-bold'
                   }`}>
-                    {claimSuccess ? 'Claimed in Database' : 'Pending Confirmation'}
+                    {claimSuccess ? 'CLAIMED' : 'PENDING'}
                   </span>
                 </div>
                 {claimSuccess && (
-                  <p className="text-[11px] text-emerald-400/90 flex items-center gap-1 mt-1 font-medium">
+                  <p className="text-[11px] font-sans text-retro-green flex items-center gap-1 mt-1 font-medium">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    Verified in Supabase at {new Date(claim.claimed_at || Date.now()).toLocaleTimeString()}
+                    Verified in database at {new Date(claim.claimed_at || Date.now()).toLocaleTimeString()}
                   </p>
                 )}
               </div>
             )}
 
-            {/* The Explicit "Confirm Claim" Button */}
+            {/* Confirm Claim Button */}
             {!claimSuccess ? (
               <button
                 onClick={handleClaim}
                 disabled={isClaiming || !claim}
-                className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-sm shadow-lg shadow-emerald-600/30 hover:shadow-emerald-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                className="retro-btn w-full py-3.5 px-4 bg-retro-green hover:bg-emerald-400 text-black font-pixel text-xs font-black flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {isClaiming ? (
                   <>
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Updating Database...
+                    <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent animate-spin" />
+                    UPDATING DATABASE...
                   </>
                 ) : (
                   <>
-                    <Check className="w-5 h-5" />
+                    <Check className="w-4 h-4 stroke-[3]" />
                     Confirm Claim Reward
                   </>
                 )}
               </button>
             ) : (
-              <div className="w-full py-3 px-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-bold text-xs flex items-center justify-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                Reward Claim Confirmed & Stored!
+              <div className="w-full py-3 px-4 bg-black border-2 border-retro-green text-retro-green font-pixel text-[10px] flex items-center justify-center gap-2 shadow-hard-sm">
+                <CheckCircle2 className="w-4 h-4" />
+                Reward Claim Confirmed!
               </div>
             )}
           </div>
         </div>
 
-        {/* Detailed Breakdown Review (5 Questions) */}
-        <div className="md:col-span-7 glass-panel-elevated rounded-3xl p-6 border border-slate-700/80">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-300 mb-4 flex items-center gap-2">
-            Sequential Performance Breakdown (5/5)
+        {/* Detailed Review Breakdown (5 Questions) */}
+        <div className="md:col-span-7 retro-panel p-6">
+          <h3 className="font-pixel text-[11px] text-slate-300 mb-4 flex items-center gap-2 uppercase">
+            ROUND SUMMARY LEDGER (5/5)
           </h3>
 
           <div className="space-y-3">
@@ -213,79 +208,79 @@ export const ResultStage: React.FC<ResultStageProps> = ({
               return (
                 <div
                   key={idx}
-                  className={`p-3.5 rounded-2xl border transition-all ${
+                  className={`p-3.5 border-2 border-black shadow-hard-sm transition-all ${
                     isCorrect
-                      ? 'bg-emerald-950/20 border-emerald-800/40'
-                      : 'bg-slate-900/60 border-slate-800'
+                      ? 'bg-[#18261e]'
+                      : 'bg-[#1c181f]'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3 mb-1.5">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono font-bold text-slate-400">
+                      <span className="font-pixel text-[10px] text-slate-400">
                         #{idx + 1}
                       </span>
                       {isChallenge ? (
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center gap-1">
-                          <Flame className="w-3 h-3" /> Challenge
+                        <span className="font-pixel text-[9px] px-1.5 py-0.5 bg-retro-amber text-black border border-black flex items-center gap-1 font-bold">
+                          <Flame className="w-2.5 h-2.5 fill-black" /> CHALLENGE
                         </span>
                       ) : (
-                        <span className="text-[10px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">
-                          Question
+                        <span className="font-pixel text-[9px] px-1.5 py-0.5 bg-black text-slate-400 border border-black">
+                          QUESTION
                         </span>
                       )}
                     </div>
 
                     <div className="flex items-center gap-2">
                       {ans && (
-                        <span className="text-[11px] text-slate-400 flex items-center gap-1">
-                          <Clock className="w-3 h-3" /> {ans.time_spent_seconds}s
+                        <span className="font-pixel text-[9px] text-slate-400 flex items-center gap-1">
+                          <Clock className="w-2.5 h-2.5" /> {ans.time_spent_seconds}s
                         </span>
                       )}
                       <span
-                        className={`text-xs font-bold px-2 py-0.5 rounded-full flex items-center gap-1 ${
+                        className={`font-pixel text-[9px] px-2 py-0.5 border border-black flex items-center gap-1 ${
                           isCorrect
-                            ? 'bg-emerald-500/20 text-emerald-300'
-                            : 'bg-rose-500/20 text-rose-300'
+                            ? 'bg-retro-green text-black font-bold'
+                            : 'bg-retro-red text-white font-bold'
                         }`}
                       >
                         {isCorrect ? (
                           <>
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> +1 Pt
+                            <CheckCircle2 className="w-3 h-3" /> +1 PT
                           </>
                         ) : (
                           <>
-                            <XCircle className="w-3.5 h-3.5 text-rose-400" /> 0 Pts
+                            <XCircle className="w-3 h-3" /> 0 PTS
                           </>
                         )}
                       </span>
                     </div>
                   </div>
 
-                  <p className="text-xs text-white font-medium mb-1 line-clamp-2">
+                  <p className="text-xs font-sans text-white font-medium mb-1 leading-relaxed">
                     {q.question_text}
                   </p>
 
-                  <div className="text-[11px] text-slate-400 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <div className="text-[11px] font-sans text-slate-400 flex flex-wrap items-center gap-x-3 gap-y-1">
                     {isTimeout ? (
-                      <span className="text-rose-400 font-semibold">Timed Out (30s reached)</span>
+                      <span className="text-retro-red font-semibold font-pixel text-[9px]">TIMED OUT (30s)</span>
                     ) : isChallenge ? (
                       <span>
                         Staff Decision:{' '}
-                        <strong className={isCorrect ? 'text-emerald-300' : 'text-rose-300'}>
+                        <strong className={isCorrect ? 'text-retro-green' : 'text-retro-red'}>
                           {ans?.user_answer || 'N/A'}
                         </strong>
                       </span>
                     ) : (
                       <>
                         <span>
-                          Your Answer:{' '}
-                          <strong className={isCorrect ? 'text-emerald-300' : 'text-rose-300'}>
+                          Your Choice:{' '}
+                          <strong className={isCorrect ? 'text-retro-green' : 'text-retro-red'}>
                             {ans?.user_answer || 'None'}
                           </strong>
                         </span>
                         {!isCorrect && (
                           <span className="text-slate-400">
-                            • Correct:{' '}
+                            • Answer:{' '}
                             <strong className="text-slate-200">{q.correct_answer}</strong>
                           </span>
                         )}
@@ -299,14 +294,14 @@ export const ResultStage: React.FC<ResultStageProps> = ({
         </div>
       </div>
 
-      {/* Play Again Action */}
+      {/* Play Again Button */}
       <div className="text-center pt-2">
         <button
           onClick={onPlayAgain}
-          className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+          className="retro-btn inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#232a35] hover:bg-white hover:text-black text-white font-pixel text-xs"
         >
-          <RotateCcw className="w-4 h-4" />
-          Play Another Round
+          <RotateCcw className="w-3.5 h-3.5" />
+          PLAY ANOTHER ROUND
         </button>
       </div>
     </div>

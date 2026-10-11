@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Difficulty } from '@/types/game';
-import { Flame, Compass, Zap, Play, Trophy, Clock, HelpCircle, CheckCircle2 } from 'lucide-react';
+import { Compass, Flame, Zap, Play, Clock, HelpCircle, Check, Sparkles } from 'lucide-react';
 
 interface LandingStageProps {
   onStartGame: (difficulty: Difficulty, playerName: string) => void;
@@ -14,47 +14,47 @@ const DIFFICULTY_CONFIG: Record<
   {
     title: string;
     subtitle: string;
-    color: string;
-    borderColor: string;
-    hoverBorder: string;
-    badgeBg: string;
+    stars: string;
+    accentColor: string;
+    bgAccent: string;
+    textColor: string;
     icon: React.ElementType;
     description: string;
-    perks: string[];
+    rules: string[];
   }
 > = {
   Easy: {
-    title: 'Easy Mode',
-    subtitle: 'Warm-up Observation',
-    color: 'text-emerald-400',
-    borderColor: 'border-emerald-500/30',
-    hoverBorder: 'hover:border-emerald-500',
-    badgeBg: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30',
+    title: 'EASY',
+    subtitle: 'STAGE 1: NOVICE',
+    stars: '★☆☆',
+    accentColor: 'border-retro-green',
+    bgAccent: 'bg-retro-green text-black',
+    textColor: 'text-retro-green',
     icon: Compass,
     description: 'Crisp morning scenes with obvious items and beginner-friendly observation questions.',
-    perks: ['Straightforward items & colors', 'Fun interactive gestures', 'Generous 60s memory window'],
+    rules: ['Clear items & primary colors', 'Hands-free active poses', 'Full 60s memory window'],
   },
   Medium: {
-    title: 'Medium Mode',
-    subtitle: 'Analytical Detective',
-    color: 'text-amber-400',
-    borderColor: 'border-amber-500/30',
-    hoverBorder: 'hover:border-amber-500',
-    badgeBg: 'bg-amber-500/10 text-amber-300 border-amber-500/30',
+    title: 'MEDIUM',
+    subtitle: 'STAGE 2: DETECTIVE',
+    stars: '★★☆',
+    accentColor: 'border-retro-amber',
+    bgAccent: 'bg-retro-amber text-black',
+    textColor: 'text-retro-amber',
     icon: Flame,
-    description: 'Detailed workstations & artisan cafes with intricate props, riddles, and tactile details.',
-    perks: ['Fine prop placement & materials', 'Detective riddles & timing', 'Requires keen visual recall'],
+    description: 'Detailed study desks & artisan cafes with intricate props, riddles, and tactile details.',
+    rules: ['Fine prop placement & materials', 'Mystery riddles & timing', 'Requires keen observation'],
   },
   Hard: {
-    title: 'Hard Mode',
-    subtitle: 'Cyberpunk Master',
-    color: 'text-rose-400',
-    borderColor: 'border-rose-500/30',
-    hoverBorder: 'hover:border-rose-500',
-    badgeBg: 'bg-rose-500/10 text-rose-300 border-rose-500/30',
+    title: 'HARD',
+    subtitle: 'STAGE 3: EXPERT',
+    stars: '★★★',
+    accentColor: 'border-retro-red',
+    bgAccent: 'bg-retro-red text-white',
+    textColor: 'text-retro-red',
     icon: Zap,
-    description: 'Complex neon night alleys and towering baroque libraries with dense textures & reflex prompts.',
-    perks: ['High visual density & reflections', 'Strict reflex freeze challenges', 'Maximum challenge for masters'],
+    description: 'Complex neon night alleys and towering libraries with dense textures & reflex prompts.',
+    rules: ['High visual density & reflections', 'Strict reflex freeze challenges', 'Maximum challenge for masters'],
   },
 };
 
@@ -71,44 +71,49 @@ export const LandingStage: React.FC<LandingStageProps> = ({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-8 animate-scale-in">
-      {/* Hero Header */}
+    <div className="w-full max-w-4xl mx-auto px-4 py-8">
+      {/* 90s Arcade Marquee Header */}
       <div className="text-center mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold mb-4 tracking-wide uppercase">
-          <Clock className="w-3.5 h-3.5" /> 60s Image Memorization • 30s Rapid Challenge
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-black border-2 border-black text-retro-green text-[10px] font-pixel shadow-hard-sm mb-4">
+          <Clock className="w-3.5 h-3.5" /> 60s MEMORY • 30s RAPID ROUNDS
         </div>
-        <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-3">
-          Master Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400">Photographic Memory</span>
+
+        <h2 className="font-pixel text-2xl sm:text-4xl text-white tracking-wider mb-4 leading-relaxed">
+          MEMORY & <span className="text-retro-green">CHALLENGE</span>
         </h2>
-        <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-          Examine a high-detail scene for exactly 60 seconds before it disappears. Then conquer 5 sequential questions and staff challenges to claim your tier reward!
+
+        <p className="text-slate-300 font-sans max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+          Observe a 16-bit detailed scene for exactly 60 seconds before it disappears. Then conquer 5 sequential questions and staff physical challenges to claim your rank!
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Player Name Input */}
+        {/* Player Tag Input */}
         <div className="max-w-md mx-auto">
-          <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2 text-center">
-            Player Alias / Name
+          <label className="block font-pixel text-[11px] text-retro-cyan uppercase tracking-wider mb-2 text-center">
+            PLAYER 1 NICKNAME
           </label>
           <div className="relative">
             <input
               type="text"
               value={playerName}
               onChange={(e) => setPlayerName(e.target.value)}
-              placeholder="Enter your challenger nickname..."
+              placeholder="ENTER ALIAS..."
               maxLength={24}
-              className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-slate-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 text-white placeholder-slate-500 text-center font-medium transition-all shadow-inner"
+              className="w-full px-4 py-3 bg-[#141923] border-2 border-black focus:border-retro-green text-white font-pixel text-xs text-center shadow-hard placeholder-slate-600 focus:outline-none transition-all"
             />
           </div>
         </div>
 
-        {/* Difficulty Selection */}
+        {/* 16-bit Difficulty Selection */}
         <div>
-          <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-4 text-center">
-            Choose Difficulty Level
-          </label>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="text-center mb-4">
+            <span className="font-pixel text-[11px] text-slate-300 uppercase tracking-wider">
+              [ CHOOSE DIFFICULTY LEVEL ]
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {(['Easy', 'Medium', 'Hard'] as Difficulty[]).map((diff) => {
               const cfg = DIFFICULTY_CONFIG[diff];
               const Icon = cfg.icon;
@@ -119,38 +124,44 @@ export const LandingStage: React.FC<LandingStageProps> = ({
                   type="button"
                   key={diff}
                   onClick={() => setSelectedDifficulty(diff)}
-                  className={`relative p-5 rounded-2xl text-left transition-all duration-200 border ${
+                  className={`relative p-5 text-left border-2 border-black transition-all duration-100 ${
                     isSelected
-                      ? `bg-slate-800/90 ${cfg.borderColor} ring-2 ring-indigo-500/50 shadow-xl shadow-indigo-950/40 -translate-y-1`
-                      : `bg-slate-900/60 border-slate-800/80 hover:bg-slate-800/40 ${cfg.hoverBorder}`
+                      ? `bg-[#1c2331] shadow-hard-lg ring-2 ring-retro-green -translate-x-1 -translate-y-1`
+                      : `bg-[#141923] hover:bg-[#1a202c] shadow-hard opacity-90 hover:opacity-100`
                   }`}
                 >
-                  {/* Selected check badge */}
+                  {/* Selected Indicator */}
                   {isSelected && (
-                    <div className="absolute top-4 right-4 text-indigo-400">
-                      <CheckCircle2 className="w-5 h-5 fill-indigo-500/20" />
+                    <div className="absolute top-3 right-3 bg-retro-green text-black px-1.5 py-0.5 border border-black font-pixel text-[9px] font-bold flex items-center gap-1 shadow-hard-sm">
+                      <Check className="w-3 h-3 stroke-[3]" /> READY
                     </div>
                   )}
 
                   <div className="flex items-center gap-3 mb-3">
-                    <div className={`p-2.5 rounded-xl border ${cfg.badgeBg}`}>
+                    <div className={`p-2 border-2 border-black ${cfg.bgAccent} shadow-hard-sm`}>
                       <Icon className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className={`font-bold text-lg text-white`}>{diff}</h3>
-                      <p className={`text-xs ${cfg.color} font-medium`}>{cfg.subtitle}</p>
+                      <h3 className="font-pixel text-base text-white">{diff}</h3>
+                      <p className={`font-pixel text-[9px] ${cfg.textColor} mt-0.5`}>
+                        {cfg.subtitle}
+                      </p>
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-400 mb-4 line-clamp-2">
+                  <div className="font-pixel text-xs text-retro-amber mb-3">
+                    {cfg.stars}
+                  </div>
+
+                  <p className="text-xs text-slate-300 font-sans mb-4 leading-relaxed line-clamp-2">
                     {cfg.description}
                   </p>
 
-                  <ul className="space-y-1.5 pt-3 border-t border-slate-800">
-                    {cfg.perks.map((perk, i) => (
-                      <li key={i} className="text-[11px] text-slate-400 flex items-center gap-1.5">
-                        <span className="w-1 h-1 rounded-full bg-slate-500" />
-                        {perk}
+                  <ul className="space-y-1.5 pt-3 border-t-2 border-black">
+                    {cfg.rules.map((rule, i) => (
+                      <li key={i} className="text-[12px] text-slate-400 font-sans flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 bg-retro-green border border-black shrink-0" />
+                        {rule}
                       </li>
                     ))}
                   </ul>
@@ -160,47 +171,47 @@ export const LandingStage: React.FC<LandingStageProps> = ({
           </div>
         </div>
 
-        {/* Game Rules Card */}
-        <div className="glass-panel rounded-2xl p-5 border border-slate-800/80 max-w-2xl mx-auto">
-          <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-3 flex items-center gap-2">
-            <HelpCircle className="w-4 h-4 text-indigo-400" /> Challenge Blueprint & Protocol
+        {/* 90s Mission Rules Blueprint Card */}
+        <div className="retro-panel p-5 max-w-2xl mx-auto">
+          <h4 className="font-pixel text-[11px] text-retro-amber uppercase tracking-wider mb-3 flex items-center gap-2">
+            <HelpCircle className="w-4 h-4 text-retro-amber" /> MISSION BRIEFING & GAME RULES
           </h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-300">
-            <div className="flex items-start gap-2 bg-slate-900/40 p-2.5 rounded-xl border border-slate-800">
-              <span className="font-bold text-indigo-400">1.</span>
-              <span><strong>60s Memorization:</strong> Picture hides strictly at 0s. Zero re-peeks allowed.</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans text-slate-300">
+            <div className="bg-black/60 p-3 border border-black shadow-hard-sm">
+              <span className="font-pixel text-[10px] text-retro-green block mb-1">01. 60s MEMORY</span>
+              <span>The picture unmounts completely when timer reaches 0. No re-peeking.</span>
             </div>
-            <div className="flex items-start gap-2 bg-slate-900/40 p-2.5 rounded-xl border border-slate-800">
-              <span className="font-bold text-indigo-400">2.</span>
-              <span><strong>5 Rapid Questions:</strong> Strictly maximum of 2 active Staff Challenges.</span>
+            <div className="bg-black/60 p-3 border border-black shadow-hard-sm">
+              <span className="font-pixel text-[10px] text-retro-cyan block mb-1">02. 5 QUESTIONS</span>
+              <span>Enforces strictly maximum of 2 active Staff Physical Challenges.</span>
             </div>
-            <div className="flex items-start gap-2 bg-slate-900/40 p-2.5 rounded-xl border border-slate-800">
-              <span className="font-bold text-indigo-400">3.</span>
-              <span><strong>30s Countdown:</strong> Auto-fails (0 pts) and advances instantly at 0s.</span>
+            <div className="bg-black/60 p-3 border border-black shadow-hard-sm">
+              <span className="font-pixel text-[10px] text-retro-red block mb-1">03. 30s DEADLINE</span>
+              <span>Strict 30s per question. Auto-fails (0 pts) and advances at 0s.</span>
             </div>
-            <div className="flex items-start gap-2 bg-slate-900/40 p-2.5 rounded-xl border border-slate-800">
-              <span className="font-bold text-indigo-400">4.</span>
-              <span><strong>Claim Reward:</strong> Unlock Diamond, Gold, or Silver tier & confirm in database.</span>
+            <div className="bg-black/60 p-3 border border-black shadow-hard-sm">
+              <span className="font-pixel text-[10px] text-retro-amber block mb-1">04. CLAIM PRIZE</span>
+              <span>Unlock Diamond or Gold tier and confirm claim code in database.</span>
             </div>
           </div>
         </div>
 
-        {/* Start Game Button */}
+        {/* Big Retro Action Button */}
         <div className="text-center pt-2">
           <button
             type="submit"
             disabled={isLoading}
-            className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-base shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none"
+            className="retro-btn inline-flex items-center justify-center gap-3 px-8 py-4 bg-retro-green hover:bg-emerald-400 text-black font-pixel text-xs sm:text-sm tracking-wider uppercase font-black disabled:opacity-50"
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
-                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Initializing Database Session...
+                <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent animate-spin" />
+                LOADING CARTRIDGE...
               </span>
             ) : (
               <>
-                <Play className="w-5 h-5 fill-white" />
-                Start {selectedDifficulty} Memory Challenge
+                <Play className="w-4 h-4 fill-black text-black" />
+                START {selectedDifficulty.toUpperCase()} MEMORY CHALLENGE
               </>
             )}
           </button>

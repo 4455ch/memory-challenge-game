@@ -8,26 +8,42 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        pixel: ['"Press Start 2P"', 'monospace'],
+        sans: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+      },
       colors: {
-        game: {
-          bg: "#0B0F19",
-          card: "#131C31",
-          cardHover: "#1D2846",
-          accent: "#6366F1",
-          gold: "#F59E0B",
-          emerald: "#10B981",
-          rose: "#EF4444",
-          cyan: "#06B6D4",
+        retro: {
+          bg: "#0d1017",
+          panel: "#161b24",
+          panelHover: "#1f2633",
+          border: "#000000",
+          green: "#22c55e",
+          lime: "#84cc16",
+          cyan: "#06b6d4",
+          amber: "#f59e0b",
+          red: "#ef4444",
+          purple: "#a855f7",
+          muted: "#94a3b8",
         },
       },
+      boxShadow: {
+        hard: "4px 4px 0px 0px #000000",
+        "hard-sm": "2px 2px 0px 0px #000000",
+        "hard-lg": "6px 6px 0px 0px #000000",
+        "hard-cyan": "4px 4px 0px 0px #06b6d4",
+        "hard-green": "4px 4px 0px 0px #22c55e",
+        "hard-amber": "4px 4px 0px 0px #f59e0b",
+        "hard-red": "4px 4px 0px 0px #ef4444",
+      },
       animation: {
-        "pulse-fast": "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "scale-in": "scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+        "blink-slow": "blink 1.2s steps(2, start) infinite",
+        "pulse-fast": "pulse 0.8s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
       keyframes: {
-        scaleIn: {
-          "0%": { transform: "scale(0.95)", opacity: "0" },
-          "100%": { transform: "scale(1)", opacity: "1" },
+        blink: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
         },
       },
     },

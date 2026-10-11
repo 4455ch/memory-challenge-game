@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Brain, Database, ShieldCheck, Sparkles } from 'lucide-react';
+import { Database, ShieldCheck, Sparkles, Gamepad2, ArrowLeft } from 'lucide-react';
 import { isSupabaseConfigured } from '@/lib/supabaseClient';
 
 interface NavbarProps {
@@ -11,35 +11,40 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ onResetGame, showReset = false }) => {
   return (
-    <header className="w-full border-b border-slate-800/80 bg-slate-950/60 backdrop-blur-md sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Brand */}
+    <header className="w-full bg-[#141923] border-b-2 border-black sticky top-0 z-50">
+      <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+        {/* Retro Brand */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-            <Brain className="w-6 h-6 text-white" />
+          <div className="w-10 h-10 bg-retro-green border-2 border-black shadow-hard-sm flex items-center justify-center text-black font-pixel text-base font-black">
+            <Gamepad2 className="w-6 h-6 text-black" />
           </div>
           <div>
-            <h1 className="font-bold text-lg text-white flex items-center gap-2">
-              Memory & Challenge <span className="text-xs bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded-full border border-indigo-500/30 font-medium">PRO</span>
-            </h1>
-            <p className="text-xs text-slate-400 hidden sm:block">
-              Photographic Observation & Rapid Assessment
+            <div className="flex items-center gap-2">
+              <h1 className="font-pixel text-xs sm:text-sm text-white tracking-wider">
+                MEMO<span className="text-retro-green">CHALLENGE</span>
+              </h1>
+              <span className="font-pixel text-[9px] bg-retro-amber text-black px-1.5 py-0.5 border border-black shadow-hard-sm font-bold">
+                16-BIT
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400 font-sans tracking-wide hidden sm:block mt-0.5">
+              Rapid Photographic Recall • Arcade Edition
             </p>
           </div>
         </div>
 
-        {/* Status & Actions */}
+        {/* Status Badge & Controls */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium glass-panel border-slate-800">
-            <Database className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="text-slate-300">
+          <div className="flex items-center gap-2 px-3 py-1 bg-black border-2 border-black text-xs font-pixel shadow-hard-sm">
+            <Database className="w-3.5 h-3.5 text-retro-green" />
+            <span className="text-white text-[10px]">
               {isSupabaseConfigured ? (
-                <span className="text-emerald-400 flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5" /> Supabase Live
+                <span className="text-retro-green flex items-center gap-1">
+                  <ShieldCheck className="w-3 h-3" /> CLOUD DB
                 </span>
               ) : (
-                <span className="text-cyan-400 flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5" /> Local PostgreSQL Mock
+                <span className="text-retro-cyan flex items-center gap-1">
+                  <Sparkles className="w-3 h-3" /> LOCAL MOCK
                 </span>
               )}
             </span>
@@ -48,9 +53,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onResetGame, showReset = false }
           {showReset && onResetGame && (
             <button
               onClick={onResetGame}
-              className="text-xs px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/60 hover:bg-slate-700 text-slate-300 transition-colors"
+              className="retro-btn bg-[#232a35] hover:bg-retro-red hover:text-white text-slate-200 text-[10px] font-pixel px-3 py-1.5 flex items-center gap-1.5"
             >
-              Quit to Menu
+              <ArrowLeft className="w-3 h-3" />
+              QUIT
             </button>
           )}
         </div>

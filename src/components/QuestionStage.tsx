@@ -11,8 +11,8 @@ import {
   XCircle, 
   ShieldCheck, 
   AlertTriangle,
-  Award,
-  ChevronRight
+  ChevronRight,
+  Sparkles
 } from 'lucide-react';
 
 interface QuestionStageProps {
@@ -43,7 +43,7 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
   const currentQuestion = questions[currentIndex];
   const questionStartTimeRef = useRef<number>(Date.now());
 
-  // Function to proceed to the next question or complete stage
+  // Advance to next question or complete game
   const advanceToNext = useCallback(
     (newAnswers: SessionAnswer[]) => {
       setFeedback(null);
@@ -59,7 +59,7 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
     [currentIndex, questions.length, onAllCompleted]
   );
 
-  // Handle submit answer (either chosen by player, staff judged, or timeout)
+  // Submit answer
   const handleAnswer = useCallback(
     async (userAnswer: string | null, isTimeout: boolean = false) => {
       if (isSubmitting || feedback?.show) return;
@@ -76,7 +76,6 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
         if (currentQuestion.question_type === 'Question') {
           isCorrect = userAnswer === currentQuestion.correct_answer;
         } else if (currentQuestion.question_type === 'Challenge') {
-          // Staff evaluated: PASS awards 1 point, FAIL awards 0
           isCorrect = userAnswer === 'PASS';
         }
       }
@@ -90,7 +89,6 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
         time_spent_seconds: timeSpent,
       };
 
-      // Show instant visual transition feedback
       setFeedback({
         show: true,
         isCorrect,
@@ -103,7 +101,6 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
         const updatedAnswers = [...answers, savedAnswer];
         setAnswers(updatedAnswers);
 
-        // Allow 1.2s to display outcome before auto-advancing
         setTimeout(() => {
           advanceToNext(updatedAnswers);
         }, 1200);
@@ -133,7 +130,6 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
     ]
   );
 
-  // Auto-fail callback when timer hits 0
   const handleTimeout = useCallback(() => {
     handleAnswer(null, true);
   }, [handleAnswer]);
@@ -144,7 +140,6 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
     autoStart: true,
   });
 
-  // Reset and restart 30s timer whenever question index changes
   useEffect(() => {
     reset(questionSeconds);
     start(questionSeconds);
@@ -155,46 +150,46 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
   const isChallenge = currentQuestion.question_type === 'Challenge';
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-4 py-6 animate-scale-in">
-      {/* Question Progress & Timer Bar */}
-      <div className="glass-panel-elevated rounded-2xl p-4 sm:p-5 mb-6 border border-slate-700/80">
+    <div className="w-full max-w-3xl mx-auto px-4 py-6">
+      {/* 90s Retro Arcade HUD */}
+      <div className="retro-panel p-4 mb-6">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-              Question {currentIndex + 1} of {questions.length}
+            <span className="font-pixel text-[10px] px-2.5 py-1 bg-black text-retro-cyan border-2 border-black shadow-hard-sm">
+              ROUND {currentIndex + 1}/05
             </span>
             {isChallenge ? (
-              <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1">
-                <Flame className="w-3.5 h-3.5" /> Staff Challenge
+              <span className="font-pixel text-[10px] px-2.5 py-1 bg-retro-amber text-black border-2 border-black shadow-hard-sm flex items-center gap-1">
+                <Flame className="w-3.5 h-3.5 fill-black" /> STAFF CHALLENGE
               </span>
             ) : (
-              <span className="text-xs font-medium uppercase tracking-wider px-2 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700">
-                Multiple Choice
+              <span className="font-pixel text-[10px] px-2.5 py-1 bg-[#232a35] text-slate-300 border-2 border-black shadow-hard-sm">
+                OBSERVATION
               </span>
             )}
           </div>
 
-          {/* Strict 30-Second Countdown */}
+          {/* 30-Second Retro Digital Clock */}
           <div className="flex items-center gap-2">
-            <Clock className={`w-4 h-4 ${isUrgent ? 'text-rose-400 animate-spin' : 'text-slate-400'}`} />
-            <div className={`font-mono text-2xl font-black ${
-              isUrgent ? 'text-rose-400 animate-pulse' : 'text-cyan-300'
+            <Clock className={`w-4 h-4 ${isUrgent ? 'text-retro-red animate-spin' : 'text-slate-400'}`} />
+            <div className={`font-pixel text-xl sm:text-2xl px-2.5 py-0.5 bg-black border-2 border-black shadow-hard-sm ${
+              isUrgent ? 'text-retro-red animate-pulse' : 'text-retro-green'
             }`}>
               {timeLeft < 10 ? `0${timeLeft}` : timeLeft}s
             </div>
           </div>
         </div>
 
-        {/* 5-Step Segmented Progress Bar */}
-        <div className="grid grid-cols-5 gap-1.5 h-1.5 w-full">
+        {/* 5-Step 16-Bit Energy Bars */}
+        <div className="grid grid-cols-5 gap-2 h-2.5 w-full bg-black p-0.5 border border-black">
           {questions.map((_, idx) => (
             <div
               key={idx}
-              className={`rounded-full transition-all duration-300 ${
+              className={`h-full transition-all duration-200 ${
                 idx < currentIndex
-                  ? 'bg-indigo-500'
+                  ? 'bg-retro-green'
                   : idx === currentIndex
-                  ? 'bg-cyan-400 shadow-sm shadow-cyan-400/50'
+                  ? 'bg-retro-cyan'
                   : 'bg-slate-800'
               }`}
             />
@@ -202,43 +197,43 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
         </div>
       </div>
 
-      {/* Main Question Card */}
-      <div className="glass-panel-elevated rounded-3xl p-6 sm:p-8 border border-slate-700/80 shadow-2xl relative overflow-hidden">
-        {/* Urgent alert ring if time running out */}
+      {/* Main Question Neo-Brutalist Card */}
+      <div className="retro-panel-elevated p-6 sm:p-8 relative overflow-hidden">
+        {/* Urgent Alert Stripe */}
         {isUrgent && (
-          <div className="absolute top-0 left-0 right-0 h-1 bg-rose-500 animate-pulse" />
+          <div className="absolute top-0 left-0 right-0 h-1.5 bg-retro-red animate-pulse" />
         )}
 
-        {/* Feedback Overlay upon selection or timeout */}
+        {/* 16-bit Outcome Popup Modal */}
         {feedback?.show && (
-          <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md z-20 flex flex-col items-center justify-center p-6 text-center animate-scale-in">
+          <div className="absolute inset-0 bg-[#0d1017]/95 border-2 border-black z-30 flex flex-col items-center justify-center p-6 text-center">
             {feedback.isTimeout ? (
               <>
-                <div className="w-16 h-16 rounded-full bg-rose-500/20 border-2 border-rose-500/50 flex items-center justify-center text-rose-400 mb-3 animate-bounce">
-                  <AlertTriangle className="w-8 h-8" />
+                <div className="w-14 h-14 bg-retro-red border-2 border-black shadow-hard flex items-center justify-center text-white mb-3">
+                  <AlertTriangle className="w-8 h-8 stroke-[2.5]" />
                 </div>
-                <h3 className="text-2xl font-bold text-rose-300 mb-1">Time Expired!</h3>
-                <p className="text-sm text-slate-400">Strict 30s deadline elapsed. 0 points awarded.</p>
+                <h3 className="font-pixel text-lg sm:text-xl text-retro-red mb-2">TIME EXPIRED!</h3>
+                <p className="font-sans text-xs text-slate-300">Strict 30s deadline elapsed. 0 points awarded.</p>
               </>
             ) : feedback.isCorrect ? (
               <>
-                <div className="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-500/50 flex items-center justify-center text-emerald-400 mb-3 animate-scale-in">
-                  <CheckCircle className="w-8 h-8" />
+                <div className="w-14 h-14 bg-retro-green border-2 border-black shadow-hard flex items-center justify-center text-black mb-3">
+                  <CheckCircle className="w-8 h-8 stroke-[2.5]" />
                 </div>
-                <h3 className="text-2xl font-bold text-emerald-300 mb-1">
-                  {isChallenge ? 'Challenge Passed!' : 'Correct Answer!'}
+                <h3 className="font-pixel text-lg sm:text-xl text-retro-green mb-2">
+                  {isChallenge ? 'CHALLENGE PASSED!' : 'EXCELLENT!'}
                 </h3>
-                <p className="text-sm text-emerald-400/80 font-medium">+1 Point Earned</p>
+                <p className="font-pixel text-xs text-retro-green">+1 POINT EARNED</p>
               </>
             ) : (
               <>
-                <div className="w-16 h-16 rounded-full bg-rose-500/20 border-2 border-rose-500/50 flex items-center justify-center text-rose-400 mb-3 animate-scale-in">
-                  <XCircle className="w-8 h-8" />
+                <div className="w-14 h-14 bg-retro-red border-2 border-black shadow-hard flex items-center justify-center text-white mb-3">
+                  <XCircle className="w-8 h-8 stroke-[2.5]" />
                 </div>
-                <h3 className="text-2xl font-bold text-rose-300 mb-1">
-                  {isChallenge ? 'Challenge Failed' : 'Incorrect Choice'}
+                <h3 className="font-pixel text-lg sm:text-xl text-retro-red mb-2">
+                  {isChallenge ? 'CHALLENGE FAILED' : 'INCORRECT CHOICE'}
                 </h3>
-                <p className="text-sm text-slate-400">
+                <p className="font-sans text-xs text-slate-400">
                   {isChallenge ? '0 points awarded.' : `Correct: ${currentQuestion.correct_answer}`}
                 </p>
               </>
@@ -246,73 +241,74 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
           </div>
         )}
 
-        {/* Prompt Header */}
+        {/* Question Header */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 text-slate-400 text-xs font-medium mb-2">
+          <div className="flex items-center gap-2 text-xs font-pixel text-slate-400 mb-2">
             {isChallenge ? (
-              <span className="text-amber-400 flex items-center gap-1">
-                <Flame className="w-4 h-4" /> Physical / Reflex Challenge Prompt
+              <span className="text-retro-amber flex items-center gap-1.5">
+                <Flame className="w-4 h-4 fill-retro-amber" /> PHYSICAL / REFLEX CHALLENGE
               </span>
             ) : (
-              <span className="text-indigo-400 flex items-center gap-1">
-                <HelpCircle className="w-4 h-4" /> Memory Observation Question
+              <span className="text-retro-cyan flex items-center gap-1.5">
+                <HelpCircle className="w-4 h-4" /> OBSERVATION QUESTION
               </span>
             )}
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white leading-snug">
+
+          <h2 className="text-lg sm:text-xl font-bold font-sans text-white leading-relaxed">
             {currentQuestion.question_text}
           </h2>
         </div>
 
-        {/* RENDER MODE A: STANDARD QUESTION (Multiple Choice) */}
+        {/* MODE A: STANDARD QUESTION (Multiple Choice Options) */}
         {!isChallenge && currentQuestion.options && (
           <div className="grid grid-cols-1 gap-3.5">
             {currentQuestion.options.map((option, idx) => {
-              const optionLetters = ['A', 'B', 'C', 'D'];
-              const letter = optionLetters[idx] || String(idx + 1);
+              const letters = ['A', 'B', 'C', 'D'];
+              const letter = letters[idx] || String(idx + 1);
 
               return (
                 <button
                   key={idx}
                   onClick={() => handleAnswer(option, false)}
                   disabled={isSubmitting}
-                  className="w-full p-4 rounded-xl text-left bg-slate-900/70 hover:bg-slate-800/80 border border-slate-700/80 hover:border-indigo-500/60 transition-all duration-150 flex items-center justify-between group active:scale-[0.99] disabled:pointer-events-none"
+                  className="retro-btn w-full p-4 bg-[#141923] hover:bg-retro-cyan hover:text-black text-left text-slate-100 flex items-center justify-between group disabled:pointer-events-none"
                 >
                   <div className="flex items-center gap-3.5">
-                    <span className="w-8 h-8 rounded-lg bg-slate-800 group-hover:bg-indigo-600 border border-slate-700 group-hover:border-indigo-400 flex items-center justify-center font-bold text-sm text-slate-300 group-hover:text-white transition-colors">
+                    <span className="w-8 h-8 bg-black text-white group-hover:bg-black group-hover:text-retro-cyan border-2 border-black font-pixel text-xs font-bold flex items-center justify-center shadow-hard-sm">
                       {letter}
                     </span>
-                    <span className="text-sm sm:text-base font-medium text-slate-200 group-hover:text-white">
+                    <span className="text-sm font-sans font-medium">
                       {option}
                     </span>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
+                  <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-black group-hover:translate-x-1 transition-transform" />
                 </button>
               );
             })}
           </div>
         )}
 
-        {/* RENDER MODE B: CHALLENGE TYPE (Staff Pass / Fail Controls) */}
+        {/* MODE B: CHALLENGE TYPE (Staff Pass / Fail Controls) */}
         {isChallenge && (
           <div className="space-y-6 pt-2">
             {/* Criteria Box */}
-            <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-1 flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4" /> Staff Evaluation Criteria
+            <div className="p-4 bg-black border-2 border-retro-amber shadow-hard-sm">
+              <h4 className="font-pixel text-[10px] text-retro-amber mb-2 flex items-center gap-1.5 uppercase">
+                <ShieldCheck className="w-4 h-4" /> STAFF EVALUATION CRITERIA
               </h4>
-              <p className="text-sm leading-relaxed text-amber-200/90 font-medium">
+              <p className="text-sm font-sans leading-relaxed text-amber-200">
                 {currentQuestion.challenge_criteria ||
                   'Verify player completes the challenge within the allotted time.'}
               </p>
             </div>
 
             {/* Staff Judgment Controls */}
-            <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-700 text-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-3">
-                Staff / Game Marshal Assessment
+            <div className="p-5 bg-[#141923] border-2 border-black shadow-hard text-center">
+              <span className="font-pixel text-[10px] text-slate-300 block mb-2 uppercase">
+                STAFF / MARSHAL ASSESSMENT
               </span>
-              <p className="text-xs text-slate-400 mb-4 max-w-md mx-auto">
+              <p className="text-xs font-sans text-slate-400 mb-4 max-w-md mx-auto">
                 Did the challenger successfully fulfill the physical or verbal challenge according to the criteria above?
               </p>
 
@@ -321,9 +317,9 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
                 <button
                   onClick={() => handleAnswer('FAIL', false)}
                   disabled={isSubmitting}
-                  className="py-3.5 px-4 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 hover:border-rose-500 text-rose-300 font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 shadow-lg shadow-rose-950/40"
+                  className="retro-btn py-3.5 px-4 bg-retro-red hover:bg-rose-600 text-white font-pixel text-[10px] flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  <XCircle className="w-5 h-5 text-rose-400" />
+                  <XCircle className="w-4 h-4 stroke-[3]" />
                   Staff: FAIL (0 Pts)
                 </button>
 
@@ -331,9 +327,9 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
                 <button
                   onClick={() => handleAnswer('PASS', false)}
                   disabled={isSubmitting}
-                  className="py-3.5 px-4 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 hover:border-emerald-500 text-emerald-300 font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 shadow-lg shadow-emerald-950/40"
+                  className="retro-btn py-3.5 px-4 bg-retro-green hover:bg-emerald-400 text-black font-pixel text-[10px] font-black flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  <CheckCircle className="w-5 h-5 text-emerald-400" />
+                  <CheckCircle className="w-4 h-4 stroke-[3]" />
                   Staff: PASS (+1 Pt)
                 </button>
               </div>
@@ -342,10 +338,10 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
         )}
       </div>
 
-      {/* Footer Instructions */}
+      {/* Retro Arcade Footer */}
       <div className="mt-4 text-center">
-        <p className="text-xs text-slate-500">
-          Strict 30.0s time limit per question • Immediate auto-advance upon timeout
+        <p className="font-pixel text-[9px] text-slate-500">
+          STRICT 30.0s CLOCK • AUTO-ADVANCES ON TIMEOUT
         </p>
       </div>
     </div>

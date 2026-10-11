@@ -32,7 +32,7 @@ export const MemoryStage: React.FC<MemoryStageProps> = ({
     }
   }, [imageLoaded, memorizationSeconds, start]);
 
-  // Fallback timer if image fails to load or takes too long
+  // Safety fallback if image CDN takes too long
   useEffect(() => {
     const safetyTimer = setTimeout(() => {
       if (!imageLoaded) {
@@ -46,71 +46,69 @@ export const MemoryStage: React.FC<MemoryStageProps> = ({
   const isUrgent = timeLeft <= 15;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-6 animate-scale-in">
-      {/* Top Header & Countdown */}
-      <div className="glass-panel-elevated rounded-2xl p-5 mb-6 border border-slate-700/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div className="w-full max-w-4xl mx-auto px-4 py-6">
+      {/* 90s Retro HUD Header */}
+      <div className="retro-panel-elevated p-4 sm:p-5 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400">
-            <Eye className="w-5 h-5 animate-pulse" />
+          <div className="p-2.5 bg-retro-green text-black border-2 border-black shadow-hard-sm">
+            <Eye className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                Phase 1: Memorization
+              <span className="font-pixel text-[9px] px-2 py-0.5 bg-black text-retro-green border border-black shadow-hard-sm">
+                STAGE 01: MEMORIZE
               </span>
-              <span className="text-xs text-slate-400 font-medium">
-                Difficulty: {image.difficulty}
+              <span className="font-pixel text-[9px] text-retro-amber">
+                DIFF: {image.difficulty.toUpperCase()}
               </span>
             </div>
-            <h2 className="text-lg sm:text-xl font-bold text-white mt-0.5">
+            <h2 className="font-pixel text-sm sm:text-base text-white mt-1">
               {image.title}
             </h2>
           </div>
         </div>
 
-        {/* 60s Countdown Timer Display */}
+        {/* 60s Digital Pixel Countdown */}
         <div className="flex items-center gap-4">
           <div className="text-right">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">
-              Time Remaining
+            <span className="font-pixel text-[9px] text-slate-400 block mb-0.5">
+              TIME LEFT
             </span>
-            <div className={`text-3xl sm:text-4xl font-black font-mono tracking-tight flex items-center justify-end gap-1 ${
-              isUrgent ? 'text-rose-400 animate-pulse' : 'text-cyan-300'
+            <div className={`font-pixel text-2xl sm:text-3xl tracking-wider px-3 py-1 bg-black border-2 border-black shadow-hard-sm ${
+              isUrgent ? 'text-retro-red animate-pulse' : 'text-retro-green'
             }`}>
-              <span>00:{timeLeft < 10 ? `0${timeLeft}` : timeLeft}</span>
+              {timeLeft < 10 ? `0${timeLeft}` : timeLeft}s
             </div>
           </div>
 
-          {/* Quick proceed button */}
+          {/* Retro Skip Button */}
           <button
             onClick={onTimeExpired}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-semibold text-slate-200 hover:text-white transition-all shadow-md group"
+            className="retro-btn bg-[#232a35] hover:bg-white hover:text-black text-white text-[10px] font-pixel px-3.5 py-3 flex items-center gap-1.5"
             title="Skip waiting if you are already ready"
           >
-            <span>Ready Now</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            <span>READY</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
-      {/* Dynamic Progress Bar */}
-      <div className="w-full bg-slate-900 rounded-full h-2 mb-6 overflow-hidden border border-slate-800">
+      {/* 90s Segmented Retro Progress Bar */}
+      <div className="w-full bg-black border-2 border-black shadow-hard-sm h-3 mb-6 p-0.5 flex">
         <div
-          className={`h-full transition-all duration-1000 ease-linear rounded-full ${
-            isUrgent
-              ? 'bg-gradient-to-r from-amber-500 to-rose-500'
-              : 'bg-gradient-to-r from-emerald-500 via-cyan-500 to-indigo-500'
+          className={`h-full transition-all duration-1000 ease-linear ${
+            isUrgent ? 'bg-retro-red' : 'bg-retro-green'
           }`}
           style={{ width: `${100 - percentage}%` }}
         />
       </div>
 
-      {/* Image Container (Strictly destroyed/unmounted when phase ends) */}
-      <div className="relative rounded-2xl overflow-hidden border-2 border-slate-700/80 bg-slate-950 shadow-2xl group min-h-[360px] sm:min-h-[480px] flex items-center justify-center">
+      {/* Image Frame (Hard 2px Black Border + Hard Drop Shadow) */}
+      <div className="relative border-2 border-black bg-black shadow-hard-lg min-h-[360px] sm:min-h-[480px] flex items-center justify-center overflow-hidden">
         {!imageLoaded && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/90 z-20 gap-3">
-            <div className="w-8 h-8 border-3 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-sm text-slate-300 font-medium">Loading high-resolution memory scene...</p>
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#141923] z-20 gap-3">
+            <div className="w-7 h-7 border-4 border-retro-green border-t-transparent animate-spin" />
+            <p className="font-pixel text-[10px] text-retro-green">DECOMPRESSING SCENE DATA...</p>
           </div>
         )}
 
@@ -123,30 +121,30 @@ export const MemoryStage: React.FC<MemoryStageProps> = ({
             setImageError(true);
             setImageLoaded(true);
           }}
-          className={`w-full max-h-[580px] object-cover transition-opacity duration-300 select-none pointer-events-none ${
+          className={`w-full max-h-[580px] object-cover transition-opacity duration-200 select-none pointer-events-none ${
             imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
         />
 
         {imageError && (
-          <div className="absolute bottom-4 left-4 right-4 bg-slate-900/95 border border-amber-500/40 p-3 rounded-xl flex items-center gap-2 text-xs text-amber-300 z-30">
-            <AlertCircle className="w-4 h-4 shrink-0 text-amber-400" />
-            <span>Image CDN preview cached. Visual scene: {image.description}</span>
+          <div className="absolute bottom-4 left-4 right-4 bg-black border-2 border-retro-amber p-3 flex items-center gap-2 text-xs font-sans text-retro-amber z-30 shadow-hard">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>Scene preview fallback cached. Detail: {image.description}</span>
           </div>
         )}
 
-        {/* Warning banner watermark */}
-        <div className="absolute bottom-3 right-3 bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-800 text-[11px] text-slate-400 flex items-center gap-1.5 pointer-events-none">
-          <ShieldAlert className="w-3.5 h-3.5 text-amber-400" />
-          <span>Image disappears strictly after 60s</span>
+        {/* Arcade watermark */}
+        <div className="absolute bottom-3 right-3 bg-black border-2 border-black px-2.5 py-1 text-[10px] font-pixel text-retro-red flex items-center gap-1.5 shadow-hard-sm">
+          <ShieldAlert className="w-3.5 h-3.5" />
+          <span>HIDES AT 0s</span>
         </div>
       </div>
 
-      {/* Guidance Note */}
+      {/* Arcade Hint Bar */}
       <div className="mt-4 text-center">
-        <p className="text-xs text-slate-400 flex items-center justify-center gap-2">
-          <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-          Pay close attention to textures, colors, numbers, materials, and relative placements.
+        <p className="text-xs font-sans text-slate-400 flex items-center justify-center gap-2">
+          <Sparkles className="w-3.5 h-3.5 text-retro-amber" />
+          Scrutinize item counts, colors, materials, text signs, and relative locations.
         </p>
       </div>
     </div>

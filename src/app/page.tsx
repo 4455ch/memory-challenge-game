@@ -124,7 +124,7 @@ export default function MemoryGamePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#090D16] text-slate-100">
+    <div className="min-h-screen flex flex-col bg-retro-bg text-slate-100 font-sans">
       <Navbar
         onResetGame={handleResetGame}
         showReset={stage !== 'difficulty_select'}
@@ -170,8 +170,8 @@ export default function MemoryGamePage() {
         )}
       </main>
 
-      <footer className="border-t border-slate-900 py-4 text-center text-xs text-slate-500">
-        Memory & Challenge Game • Next.js & Supabase Architecture • 60s Memory • 30s Sequential Timers
+      <footer className="border-t-2 border-black bg-[#141923] py-4 text-center font-pixel text-[9px] text-slate-400">
+        ★ MEMORY & CHALLENGE 90s • 60s MEMORY • 30s RAPID ROUNDS • 16-BIT EDITION ★
       </footer>
     </div>
   );
