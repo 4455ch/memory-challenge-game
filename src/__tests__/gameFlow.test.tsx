@@ -11,16 +11,16 @@ describe('Game UI Component Tests', () => {
     const onStartMock = vi.fn();
     render(<LandingStage onStartGame={onStartMock} isLoading={false} />);
 
-    expect(screen.getByText(/Choose Difficulty Level/i)).toBeInTheDocument();
-    expect(screen.getByText('Easy')).toBeInTheDocument();
-    expect(screen.getByText('Medium')).toBeInTheDocument();
-    expect(screen.getByText('Hard')).toBeInTheDocument();
+    expect(screen.getByText(/เลือกระดับความยาก/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /ง่าย/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /ปานกลาง/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /ยาก/i })).toBeInTheDocument();
 
     // Switch to Hard Mode
-    fireEvent.click(screen.getByText('Hard'));
+    fireEvent.click(screen.getByRole('heading', { name: /ยาก/i }));
 
     // Submit form
-    const startButton = screen.getByRole('button', { name: /Start Hard Memory Challenge/i });
+    const startButton = screen.getByRole('button', { name: /เริ่มภารกิจความจำ/i });
     fireEvent.click(startButton);
 
     expect(onStartMock).toHaveBeenCalledWith('Hard', 'Player 1');
@@ -61,8 +61,8 @@ describe('Game UI Component Tests', () => {
     );
 
     // Verify Staff buttons are present
-    const passButton = screen.getByRole('button', { name: /Staff: PASS/i });
-    const failButton = screen.getByRole('button', { name: /Staff: FAIL/i });
+    const passButton = screen.getByRole('button', { name: /Staff: ผ่าน/i });
+    const failButton = screen.getByRole('button', { name: /Staff: ไม่ผ่าน/i });
     expect(passButton).toBeInTheDocument();
     expect(failButton).toBeInTheDocument();
 
@@ -145,11 +145,11 @@ describe('Game UI Component Tests', () => {
 
     // Verify 5 out of 5 score & Diamond Grand Champion displayed
     expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByText(/Diamond Grand Champion/i)).toBeInTheDocument();
+    expect(screen.getByText(/สุดยอดแชมเปียนระดับ Diamond/i)).toBeInTheDocument();
     expect(screen.getByText(/CLM-ABCD-1234/i)).toBeInTheDocument();
 
     // Find and click Confirm Claim button
-    const claimButton = screen.getByRole('button', { name: /Confirm Claim Reward/i });
+    const claimButton = screen.getByRole('button', { name: /กดยืนยันรับของรางวัล/i });
     await act(async () => {
       fireEvent.click(claimButton);
     });
@@ -157,7 +157,7 @@ describe('Game UI Component Tests', () => {
     expect(onConfirmClaim).toHaveBeenCalledWith('claim-123');
 
     await waitFor(() => {
-      expect(screen.getByText(/Reward Claim Confirmed/i)).toBeInTheDocument();
+      expect(screen.getByText(/ยืนยันการรับรางวัลสำเร็จ/i)).toBeInTheDocument();
     });
   });
 });

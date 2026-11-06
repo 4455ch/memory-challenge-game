@@ -11,9 +11,9 @@ import {
   XCircle, 
   ShieldCheck, 
   AlertTriangle,
-  ChevronRight,
-  Sparkles
+  ChevronRight
 } from 'lucide-react';
+import { FireworkBurst, BalloonStallGraphic } from './TempleFairGraphics';
 
 interface QuestionStageProps {
   questions: Question[];
@@ -150,91 +150,105 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
   const isChallenge = currentQuestion.question_type === 'Challenge';
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-4 py-6">
-      {/* 90s Retro Arcade HUD */}
-      <div className="retro-panel p-4 mb-6">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <span className="font-pixel text-[10px] px-2.5 py-1 bg-black text-retro-cyan border-2 border-black shadow-hard-sm">
-              ROUND {currentIndex + 1}/05
+    <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 relative">
+      {/* Subtle Fireworks burst in background */}
+      <div className="absolute -top-2 right-2 sm:right-6 opacity-60 pointer-events-none">
+        <FireworkBurst size={48} />
+      </div>
+
+      {/* Clean HUD with Warm Temple Fair Accents */}
+      <div className="bg-white rounded-2xl border border-[#DCCEB5] p-5 mb-6 shadow-sm">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2.5">
+            <span className="text-sm font-bold px-3 py-1 bg-[#FFF2D1] text-[#7A4B17] rounded-full border border-[#E3C37B]">
+              ข้อที่ {currentIndex + 1} / 05
             </span>
             {isChallenge ? (
-              <span className="font-pixel text-[10px] px-2.5 py-1 bg-retro-amber text-black border-2 border-black shadow-hard-sm flex items-center gap-1">
-                <Flame className="w-3.5 h-3.5 fill-black" /> STAFF CHALLENGE
+              <span className="text-sm font-bold px-3 py-1 bg-[#FEE2E2] text-[#991B1B] rounded-full flex items-center gap-1.5 border border-[#FECACA]">
+                <Flame className="w-4 h-4 fill-[#C2272D] text-[#C2272D]" /> ภารกิจ STAFF (ปฏิบัติจริง)
               </span>
             ) : (
-              <span className="font-pixel text-[10px] px-2.5 py-1 bg-[#232a35] text-slate-300 border-2 border-black shadow-hard-sm">
-                OBSERVATION
+              <span className="text-sm font-semibold px-3 py-1 bg-[#FAF7F0] text-slate-700 rounded-full border border-[#E8DEC8]">
+                คำถามสังเกตภาพ
               </span>
             )}
           </div>
 
-          {/* 30-Second Retro Digital Clock */}
+          {/* 30-Second Countdown Clock */}
           <div className="flex items-center gap-2">
-            <Clock className={`w-4 h-4 ${isUrgent ? 'text-retro-red animate-spin' : 'text-slate-400'}`} />
-            <div className={`font-pixel text-xl sm:text-2xl px-2.5 py-0.5 bg-black border-2 border-black shadow-hard-sm ${
-              isUrgent ? 'text-retro-red animate-pulse' : 'text-retro-green'
-            }`}>
+            <Clock className={`w-5 h-5 ${isUrgent ? 'text-[#C2272D] animate-spin' : 'text-slate-400'}`} />
+            <div
+              className={`text-2xl sm:text-3xl font-mono font-extrabold tracking-tight px-3 py-0.5 rounded-lg border ${
+                isUrgent
+                  ? 'bg-rose-50 text-[#C2272D] border-rose-200 animate-pulse'
+                  : 'bg-[#FAF7F0] text-[#381F0D] border-[#E8DEC8]'
+              }`}
+            >
               {timeLeft < 10 ? `0${timeLeft}` : timeLeft}s
             </div>
           </div>
         </div>
 
-        {/* 5-Step 16-Bit Energy Bars */}
-        <div className="grid grid-cols-5 gap-2 h-2.5 w-full bg-black p-0.5 border border-black">
+        {/* 5-Step Clean Progress Bar */}
+        <div className="grid grid-cols-5 gap-2 h-2 w-full bg-[#EAE2D2] rounded-full p-0.5 overflow-hidden">
           {questions.map((_, idx) => (
             <div
               key={idx}
-              className={`h-full transition-all duration-200 ${
+              className={`h-full rounded-full transition-all duration-300 ${
                 idx < currentIndex
-                  ? 'bg-retro-green'
+                  ? 'bg-[#10B981]'
                   : idx === currentIndex
-                  ? 'bg-retro-cyan'
-                  : 'bg-slate-800'
+                  ? 'bg-[#F59E0B]'
+                  : 'bg-[#D4C5AB]'
               }`}
             />
           ))}
         </div>
       </div>
 
-      {/* Main Question Neo-Brutalist Card */}
-      <div className="retro-panel-elevated p-6 sm:p-8 relative overflow-hidden">
+      {/* Main Question Card with Scalloped Awning Top */}
+      <div className="bg-white rounded-2xl border border-[#DCCEB5] p-6 sm:p-8 shadow-sm relative overflow-hidden">
         {/* Urgent Alert Stripe */}
         {isUrgent && (
-          <div className="absolute top-0 left-0 right-0 h-1.5 bg-retro-red animate-pulse" />
+          <div className="absolute top-0 left-0 right-0 h-1 bg-[#C2272D] animate-pulse" />
         )}
 
-        {/* 16-bit Outcome Popup Modal */}
+        {/* Feedback Popup Modal with Festive Temple Fair Gimmick */}
         {feedback?.show && (
-          <div className="absolute inset-0 bg-[#0d1017]/95 border-2 border-black z-30 flex flex-col items-center justify-center p-6 text-center">
+          <div className="absolute inset-0 bg-white/95 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-6 text-center animate-fadeIn">
             {feedback.isTimeout ? (
               <>
-                <div className="w-14 h-14 bg-retro-red border-2 border-black shadow-hard flex items-center justify-center text-white mb-3">
-                  <AlertTriangle className="w-8 h-8 stroke-[2.5]" />
+                <div className="w-16 h-16 bg-rose-100 text-[#C2272D] rounded-2xl flex items-center justify-center mb-3">
+                  <AlertTriangle className="w-9 h-9 stroke-[2.5]" />
                 </div>
-                <h3 className="font-pixel text-lg sm:text-xl text-retro-red mb-2">TIME EXPIRED!</h3>
-                <p className="font-sans text-xs text-slate-300">Strict 30s deadline elapsed. 0 points awarded.</p>
+                <h3 className="text-2xl font-bold text-[#C2272D] mb-2">หมดเวลา!</h3>
+                <p className="text-base text-slate-600">เวลา 30 วินาทีหมดลง ไม่ได้รับคะแนนในข้อนี้ (0 คะแนน)</p>
               </>
             ) : feedback.isCorrect ? (
               <>
-                <div className="w-14 h-14 bg-retro-green border-2 border-black shadow-hard flex items-center justify-center text-black mb-3">
-                  <CheckCircle className="w-8 h-8 stroke-[2.5]" />
+                <div className="relative mb-3">
+                  <div className="w-16 h-16 bg-emerald-100 text-[#065F46] rounded-2xl flex items-center justify-center">
+                    <CheckCircle className="w-9 h-9 stroke-[2.5]" />
+                  </div>
+                  <div className="absolute -top-3 -right-3">
+                    <FireworkBurst size={36} />
+                  </div>
                 </div>
-                <h3 className="font-pixel text-lg sm:text-xl text-retro-green mb-2">
-                  {isChallenge ? 'CHALLENGE PASSED!' : 'EXCELLENT!'}
+                <h3 className="text-2xl font-extrabold text-[#065F46] mb-2">
+                  {isChallenge ? 'ผ่านภารกิจสำเร็จ!' : 'ถูกต้องยอดเยี่ยม!'}
                 </h3>
-                <p className="font-pixel text-xs text-retro-green">+1 POINT EARNED</p>
+                <p className="text-lg font-bold text-[#065F46]">+1 คะแนน</p>
               </>
             ) : (
               <>
-                <div className="w-14 h-14 bg-retro-red border-2 border-black shadow-hard flex items-center justify-center text-white mb-3">
-                  <XCircle className="w-8 h-8 stroke-[2.5]" />
+                <div className="w-16 h-16 bg-rose-100 text-[#C2272D] rounded-2xl flex items-center justify-center mb-3">
+                  <XCircle className="w-9 h-9 stroke-[2.5]" />
                 </div>
-                <h3 className="font-pixel text-lg sm:text-xl text-retro-red mb-2">
-                  {isChallenge ? 'CHALLENGE FAILED' : 'INCORRECT CHOICE'}
+                <h3 className="text-2xl font-bold text-[#C2272D] mb-2">
+                  {isChallenge ? 'ไม่ผ่านภารกิจ' : 'ตอบไม่ถูกต้อง'}
                 </h3>
-                <p className="font-sans text-xs text-slate-400">
-                  {isChallenge ? '0 points awarded.' : `Correct: ${currentQuestion.correct_answer}`}
+                <p className="text-base text-slate-600">
+                  {isChallenge ? 'ไม่ได้คะแนนในข้อนี้ (0 คะแนน)' : `คำตอบที่ถูกต้องคือ: ${currentQuestion.correct_answer}`}
                 </p>
               </>
             )}
@@ -243,19 +257,19 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
 
         {/* Question Header */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 text-xs font-pixel text-slate-400 mb-2">
+          <div className="flex items-center gap-2 text-sm font-semibold text-slate-500 mb-2">
             {isChallenge ? (
-              <span className="text-retro-amber flex items-center gap-1.5">
-                <Flame className="w-4 h-4 fill-retro-amber" /> PHYSICAL / REFLEX CHALLENGE
+              <span className="text-[#8C5E28] flex items-center gap-1.5 font-bold">
+                <Flame className="w-4 h-4 fill-amber-500 text-amber-600" /> ภารกิจท้าทายร่างกาย / ปฏิบัติจริง
               </span>
             ) : (
-              <span className="text-retro-cyan flex items-center gap-1.5">
-                <HelpCircle className="w-4 h-4" /> OBSERVATION QUESTION
+              <span className="text-[#1E40AF] flex items-center gap-1.5 font-bold">
+                <HelpCircle className="w-4 h-4" /> คำถามวัดความจำและสายตา
               </span>
             )}
           </div>
 
-          <h2 className="text-lg sm:text-xl font-bold font-sans text-white leading-relaxed">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-[#381F0D] leading-relaxed">
             {currentQuestion.question_text}
           </h2>
         </div>
@@ -272,17 +286,17 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
                   key={idx}
                   onClick={() => handleAnswer(option, false)}
                   disabled={isSubmitting}
-                  className="retro-btn w-full p-4 bg-[#141923] hover:bg-retro-cyan hover:text-black text-left text-slate-100 flex items-center justify-between group disabled:pointer-events-none"
+                  className="w-full p-4 sm:p-5 bg-[#FAF7F0] hover:bg-[#FFF2D1] hover:border-[#E3C37B] border-2 border-[#E8DEC8] rounded-xl text-left text-slate-900 flex items-center justify-between group disabled:pointer-events-none transition-all shadow-sm"
                 >
-                  <div className="flex items-center gap-3.5">
-                    <span className="w-8 h-8 bg-black text-white group-hover:bg-black group-hover:text-retro-cyan border-2 border-black font-pixel text-xs font-bold flex items-center justify-center shadow-hard-sm">
+                  <div className="flex items-center gap-4">
+                    <span className="w-10 h-10 rounded-xl bg-white border border-[#D4C5AB] text-[#381F0D] group-hover:bg-[#F59E0B] group-hover:border-[#B45309] group-hover:text-[#381F0D] font-black text-base flex items-center justify-center shrink-0 shadow-sm transition-colors">
                       {letter}
                     </span>
-                    <span className="text-sm font-sans font-medium">
+                    <span className="text-base sm:text-lg font-semibold text-slate-800 leading-snug">
                       {option}
                     </span>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-black group-hover:translate-x-1 transition-transform" />
+                  <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-[#381F0D] group-hover:translate-x-1 transition-all shrink-0 ml-2" />
                 </button>
               );
             })}
@@ -293,23 +307,23 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
         {isChallenge && (
           <div className="space-y-6 pt-2">
             {/* Criteria Box */}
-            <div className="p-4 bg-black border-2 border-retro-amber shadow-hard-sm">
-              <h4 className="font-pixel text-[10px] text-retro-amber mb-2 flex items-center gap-1.5 uppercase">
-                <ShieldCheck className="w-4 h-4" /> STAFF EVALUATION CRITERIA
+            <div className="p-5 bg-[#FFFBF0] border border-[#E3C37B] rounded-xl shadow-sm">
+              <h4 className="text-sm font-bold text-[#7A4B17] mb-2 flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-[#C2272D]" /> เกณฑ์การตัดสินของทีมงาน STAFF
               </h4>
-              <p className="text-sm font-sans leading-relaxed text-amber-200">
+              <p className="text-base font-medium leading-relaxed text-slate-800">
                 {currentQuestion.challenge_criteria ||
-                  'Verify player completes the challenge within the allotted time.'}
+                  'ตรวจสอบว่าผู้เล่นปฏิบัติภารกิจสำเร็จภายในเวลาที่กำหนด'}
               </p>
             </div>
 
             {/* Staff Judgment Controls */}
-            <div className="p-5 bg-[#141923] border-2 border-black shadow-hard text-center">
-              <span className="font-pixel text-[10px] text-slate-300 block mb-2 uppercase">
-                STAFF / MARSHAL ASSESSMENT
+            <div className="p-6 bg-[#FAF7F0] rounded-xl border border-[#E0D5C1] text-center">
+              <span className="text-sm font-bold text-[#381F0D] block mb-1">
+                แผงควบคุมการตัดสินสำหรับ STAFF
               </span>
-              <p className="text-xs font-sans text-slate-400 mb-4 max-w-md mx-auto">
-                Did the challenger successfully fulfill the physical or verbal challenge according to the criteria above?
+              <p className="text-sm text-slate-600 mb-5 max-w-md mx-auto">
+                ผู้เล่นปฏิบัติภารกิจถูกต้องตามเกณฑ์ที่ระบุไว้ด้านบนหรือไม่?
               </p>
 
               <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
@@ -317,20 +331,20 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
                 <button
                   onClick={() => handleAnswer('FAIL', false)}
                   disabled={isSubmitting}
-                  className="retro-btn py-3.5 px-4 bg-retro-red hover:bg-rose-600 text-white font-pixel text-[10px] flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="py-4 px-4 bg-[#C2272D] hover:bg-[#A32025] text-white font-bold text-sm sm:text-base rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all disabled:opacity-50"
                 >
-                  <XCircle className="w-4 h-4 stroke-[3]" />
-                  Staff: FAIL (0 Pts)
+                  <XCircle className="w-5 h-5" />
+                  Staff: ไม่ผ่าน (0 คะแนน)
                 </button>
 
                 {/* Staff PASS Button */}
                 <button
                   onClick={() => handleAnswer('PASS', false)}
                   disabled={isSubmitting}
-                  className="retro-btn py-3.5 px-4 bg-retro-green hover:bg-emerald-400 text-black font-pixel text-[10px] font-black flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="py-4 px-4 bg-[#10B981] hover:bg-[#059669] text-white font-bold text-sm sm:text-base rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all disabled:opacity-50"
                 >
-                  <CheckCircle className="w-4 h-4 stroke-[3]" />
-                  Staff: PASS (+1 Pt)
+                  <CheckCircle className="w-5 h-5" />
+                  Staff: ผ่าน (+1 คะแนน)
                 </button>
               </div>
             </div>
@@ -338,10 +352,10 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
         )}
       </div>
 
-      {/* Retro Arcade Footer */}
+      {/* Footer info */}
       <div className="mt-4 text-center">
-        <p className="font-pixel text-[9px] text-slate-500">
-          STRICT 30.0s CLOCK • AUTO-ADVANCES ON TIMEOUT
+        <p className="text-xs sm:text-sm text-slate-500 font-medium">
+          จำกัดเวลาข้อละ 30 วินาที • หากหมดเวลาจะเปลี่ยนข้อโดยอัตโนมัติ
         </p>
       </div>
     </div>

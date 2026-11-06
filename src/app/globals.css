@@ -1,87 +1,81 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #0d1017;
-  --foreground: #f8fafc;
+  --background: #fdfbf5;
+  --foreground: #0f172a;
 }
 
 body {
-  color: var(--foreground);
-  background-color: #0d1017;
-  /* Minimal subtle retro grid background */
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 24px 24px;
+  color: #0f172a;
+  /* Soft vintage sky seafoam fading into warm temple fair parchment */
+  background: linear-gradient(180deg, #e8f3ef 0%, #fcfbf6 300px, #fdf8ec 100%);
+  background-attachment: fixed;
   min-height: 100vh;
-  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-family: 'Kanit', 'Space Grotesk', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Custom retro pixel utility classes */
+/* Custom retro pixel utility class - for numbers/scores */
 .font-pixel {
   font-family: 'Press Start 2P', monospace;
   letter-spacing: -0.02em;
 }
 
-/* Retro Neo-Brutalist Panel */
+/* Clean minimal card panels with subtle vintage warmth */
 .retro-panel {
-  background-color: #141923;
-  border: 2px solid #000000;
-  box-shadow: 4px 4px 0px 0px #000000;
+  background-color: #ffffff;
+  border: 1.5px solid #e5dccb;
+  box-shadow: 0 4px 10px -2px rgba(115, 87, 44, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  border-radius: 1rem;
 }
 
 .retro-panel-elevated {
-  background-color: #1a202c;
-  border: 2px solid #000000;
-  box-shadow: 6px 6px 0px 0px #000000;
+  background-color: #ffffff;
+  border: 1.5px solid #dfd3bd;
+  box-shadow: 0 10px 20px -3px rgba(115, 87, 44, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  border-radius: 1.25rem;
 }
 
-/* Retro Tactile Button behavior */
+/* Tactile Minimal Button behavior */
 .retro-btn {
-  border: 2px solid #000000;
-  box-shadow: 4px 4px 0px 0px #000000;
-  transition: transform 0.06s ease, box-shadow 0.06s ease;
+  border: 1.5px solid #0f172a;
+  box-shadow: 3px 3px 0px 0px #0f172a;
+  border-radius: 0.75rem;
+  transition: all 0.1s ease;
   user-select: none;
 }
 
 .retro-btn:hover:not(:disabled) {
   transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0px 0px #000000;
+  box-shadow: 4px 4px 0px 0px #0f172a;
 }
 
 .retro-btn:active:not(:disabled) {
   transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0px 0px #000000;
+  box-shadow: 1px 1px 0px 0px #0f172a;
 }
 
-/* Hard pixel badge */
-.pixel-badge {
-  border: 2px solid #000000;
-  box-shadow: 2px 2px 0px 0px #000000;
-}
-
-/* Custom retro scrollbar */
+/* Custom clean scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0d1017;
-  border-left: 2px solid #000000;
+  background: #fdfbf5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #22c55e;
-  border: 2px solid #000000;
+  background: #d4c5ab;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4ade80;
+  background: #b5a07c;
 }

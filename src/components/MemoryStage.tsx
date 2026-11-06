@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { GameImage } from '@/types/game';
 import { useCountdownTimer } from '@/hooks/useCountdownTimer';
-import { Eye, ArrowRight, ShieldAlert, Sparkles, AlertCircle } from 'lucide-react';
+import { Eye, ArrowRight, ShieldAlert, AlertCircle } from 'lucide-react';
+import { FireworkBurst, FerrisWheelGraphic } from './TempleFairGraphics';
 
 interface MemoryStageProps {
   image: GameImage;
@@ -46,69 +47,75 @@ export const MemoryStage: React.FC<MemoryStageProps> = ({
   const isUrgent = timeLeft <= 15;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-6">
-      {/* 90s Retro HUD Header */}
-      <div className="retro-panel-elevated p-4 sm:p-5 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-retro-green text-black border-2 border-black shadow-hard-sm">
-            <Eye className="w-5 h-5" />
+    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-6 relative">
+      {/* Decorative Sparkle Fireworks in corner */}
+      <div className="absolute -top-1 right-2 sm:right-6 opacity-60 pointer-events-none">
+        <FireworkBurst size={44} />
+      </div>
+
+      {/* Clean HUD Header with Temple Fair Touch */}
+      <div className="bg-white rounded-2xl border border-[#DCCEB5] p-5 sm:p-6 mb-6 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-sm">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 bg-[#FFF7DB] border border-[#E0D5C1] rounded-xl flex items-center justify-center shrink-0 p-1">
+            <FerrisWheelGraphic size={36} />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="font-pixel text-[9px] px-2 py-0.5 bg-black text-retro-green border border-black shadow-hard-sm">
-                STAGE 01: MEMORIZE
+            <div className="flex items-center gap-2 flex-wrap mb-1">
+              <span className="text-xs sm:text-sm font-bold px-3 py-1 bg-[#FFF2D1] text-[#7A4B17] rounded-full border border-[#E3C37B]">
+                ด่านที่ 1: จดจำภาพ
               </span>
-              <span className="font-pixel text-[9px] text-retro-amber">
-                DIFF: {image.difficulty.toUpperCase()}
+              <span className="text-xs sm:text-sm font-medium px-3 py-1 bg-[#FAF7F0] text-slate-700 rounded-full border border-[#E8DEC8]">
+                ระดับ: {image.difficulty === 'Easy' ? 'ง่าย' : image.difficulty === 'Medium' ? 'ปานกลาง' : 'ยาก'}
               </span>
             </div>
-            <h2 className="font-pixel text-sm sm:text-base text-white mt-1">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-[#381F0D]">
               {image.title}
             </h2>
           </div>
         </div>
 
-        {/* 60s Digital Pixel Countdown */}
-        <div className="flex items-center gap-4">
+        {/* 60s Digital Countdown & Skip Button */}
+        <div className="flex items-center gap-5">
           <div className="text-right">
-            <span className="font-pixel text-[9px] text-slate-400 block mb-0.5">
-              TIME LEFT
+            <span className="text-xs sm:text-sm font-medium text-slate-500 block">
+              เวลาจดจำภาพ
             </span>
-            <div className={`font-pixel text-2xl sm:text-3xl tracking-wider px-3 py-1 bg-black border-2 border-black shadow-hard-sm ${
-              isUrgent ? 'text-retro-red animate-pulse' : 'text-retro-green'
-            }`}>
+            <div
+              className={`text-3xl sm:text-4xl font-mono font-extrabold tracking-tight ${
+                isUrgent ? 'text-[#C2272D] animate-pulse' : 'text-[#381F0D]'
+              }`}
+            >
               {timeLeft < 10 ? `0${timeLeft}` : timeLeft}s
             </div>
           </div>
 
-          {/* Retro Skip Button */}
           <button
             onClick={onTimeExpired}
-            className="retro-btn bg-[#232a35] hover:bg-white hover:text-black text-white text-[10px] font-pixel px-3.5 py-3 flex items-center gap-1.5"
-            title="Skip waiting if you are already ready"
+            className="px-5 py-3 rounded-xl bg-[#381F0D] hover:bg-[#201005] text-[#FFF9E6] font-bold text-sm sm:text-base flex items-center gap-2 shadow-sm transition-all"
+            title="ข้ามไปตอบคำถามทันทีหากจดจำได้ครบแล้ว"
           >
-            <span>READY</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <span>พร้อมแล้ว</span>
+            <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* 90s Segmented Retro Progress Bar */}
-      <div className="w-full bg-black border-2 border-black shadow-hard-sm h-3 mb-6 p-0.5 flex">
+      {/* Modern Sleek Progress Bar */}
+      <div className="w-full bg-[#E5DCCB] rounded-full h-2.5 mb-6 overflow-hidden">
         <div
-          className={`h-full transition-all duration-1000 ease-linear ${
-            isUrgent ? 'bg-retro-red' : 'bg-retro-green'
+          className={`h-full transition-all duration-1000 ease-linear rounded-full ${
+            isUrgent ? 'bg-[#C2272D]' : 'bg-[#F59E0B]'
           }`}
           style={{ width: `${100 - percentage}%` }}
         />
       </div>
 
-      {/* Image Frame (Hard 2px Black Border + Hard Drop Shadow) */}
-      <div className="relative border-2 border-black bg-black shadow-hard-lg min-h-[360px] sm:min-h-[480px] flex items-center justify-center overflow-hidden">
+      {/* Image Container with Elegant Vintage Frame */}
+      <div className="relative rounded-2xl border-2 border-[#D4C5AB] bg-white shadow-md overflow-hidden min-h-[360px] sm:min-h-[500px] flex items-center justify-center">
         {!imageLoaded && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#141923] z-20 gap-3">
-            <div className="w-7 h-7 border-4 border-retro-green border-t-transparent animate-spin" />
-            <p className="font-pixel text-[10px] text-retro-green">DECOMPRESSING SCENE DATA...</p>
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#FAF7F0] z-20 gap-3">
+            <div className="w-8 h-8 border-3 border-[#C2272D] border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm font-medium text-slate-700">กำลังโหลดภาพ...</p>
           </div>
         )}
 
@@ -121,31 +128,23 @@ export const MemoryStage: React.FC<MemoryStageProps> = ({
             setImageError(true);
             setImageLoaded(true);
           }}
-          className={`w-full max-h-[580px] object-cover transition-opacity duration-200 select-none pointer-events-none ${
+          className={`w-full max-h-[600px] object-cover transition-opacity duration-200 select-none pointer-events-none ${
             imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
         />
 
         {imageError && (
-          <div className="absolute bottom-4 left-4 right-4 bg-black border-2 border-retro-amber p-3 flex items-center gap-2 text-xs font-sans text-retro-amber z-30 shadow-hard">
-            <AlertCircle className="w-4 h-4 shrink-0" />
-            <span>Scene preview fallback cached. Detail: {image.description}</span>
+          <div className="absolute bottom-4 left-4 right-4 bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center gap-3 text-sm text-amber-900 z-30 shadow-md">
+            <AlertCircle className="w-5 h-5 shrink-0 text-amber-700" />
+            <span className="font-medium">รายละเอียดภาพสำรอง: {image.description}</span>
           </div>
         )}
 
-        {/* Arcade watermark */}
-        <div className="absolute bottom-3 right-3 bg-black border-2 border-black px-2.5 py-1 text-[10px] font-pixel text-retro-red flex items-center gap-1.5 shadow-hard-sm">
-          <ShieldAlert className="w-3.5 h-3.5" />
-          <span>HIDES AT 0s</span>
+        {/* Clean alert badge */}
+        <div className="absolute bottom-4 right-4 bg-[#381F0D]/85 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium text-white flex items-center gap-2 shadow-sm">
+          <ShieldAlert className="w-4 h-4 text-amber-400" />
+          <span>ภาพจะถูกซ่อนเมื่อหมดเวลา</span>
         </div>
-      </div>
-
-      {/* Arcade Hint Bar */}
-      <div className="mt-4 text-center">
-        <p className="text-xs font-sans text-slate-400 flex items-center justify-center gap-2">
-          <Sparkles className="w-3.5 h-3.5 text-retro-amber" />
-          Scrutinize item counts, colors, materials, text signs, and relative locations.
-        </p>
       </div>
     </div>
   );

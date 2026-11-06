@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Memory & Challenge Game | Test Your Photographic Memory',
-  description: 'Test your photographic memory with timed image observation and sequential challenges powered by Next.js & Supabase.',
+  title: 'จำให้ MAN | เกมประลองความจำภาพถ่าย',
+  description: 'เกมประลองความจำภาพถ่าย "จำให้ MAN" ทดสอบความจำแบบจับเวลา พร้อมตอบคำถามและภารกิจท้าทาย สไตล์งานวัด',
 };
 
 export default function RootLayout({
@@ -12,8 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className="antialiased min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+    <html lang="th">
+      <body className="antialiased min-h-screen flex flex-col justify-between selection:bg-amber-400 selection:text-black">
         {children}
       </body>
     </html>

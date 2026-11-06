@@ -124,7 +124,7 @@ export default function MemoryGamePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-retro-bg text-slate-100 font-sans">
+    <div className="min-h-screen flex flex-col bg-transparent text-slate-900 font-sans">
       <Navbar
         onResetGame={handleResetGame}
         showReset={stage !== 'difficulty_select'}
@@ -170,8 +170,8 @@ export default function MemoryGamePage() {
         )}
       </main>
 
-      <footer className="border-t-2 border-black bg-[#141923] py-4 text-center font-pixel text-[9px] text-slate-400">
-        ★ MEMORY & CHALLENGE 90s • 60s MEMORY • 30s RAPID ROUNDS • 16-BIT EDITION ★
+      <footer className="border-t border-[#E5DCCB] bg-white/80 backdrop-blur-sm py-4 text-center font-sans text-xs sm:text-sm text-[#7A4B17] font-semibold">
+        🎪 เกม "จำให้ MAN" เทศกาลเที่ยวงานวัด • จำภาพ 60 วินาที • ตอบคำถาม 30 วินาที 🎡
       </footer>
     </div>
   );
