@@ -47,7 +47,7 @@ export const MemoryStage: React.FC<MemoryStageProps> = ({
   const isUrgent = timeLeft <= 15;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-6 relative">
+    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-6 relative">
       {/* Decorative Sparkle Fireworks in corner */}
       <div className="absolute -top-1 right-2 sm:right-6 opacity-60 pointer-events-none">
         <FireworkBurst size={44} />
@@ -110,8 +110,8 @@ export const MemoryStage: React.FC<MemoryStageProps> = ({
         />
       </div>
 
-      {/* Image Container with Elegant Vintage Frame */}
-      <div className="relative rounded-2xl border-2 border-[#D4C5AB] bg-white shadow-md overflow-hidden min-h-[360px] sm:min-h-[500px] flex items-center justify-center">
+      {/* Image Container with Elegant Vintage Frame - Showing Full Image without Cropping */}
+      <div className="relative rounded-2xl border-2 border-[#D4C5AB] bg-[#F7F4EB] shadow-md overflow-hidden min-h-[360px] sm:min-h-[500px] flex items-center justify-center p-2 sm:p-3">
         {!imageLoaded && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#FAF7F0] z-20 gap-3">
             <div className="w-8 h-8 border-3 border-[#C2272D] border-t-transparent rounded-full animate-spin" />
@@ -128,7 +128,7 @@ export const MemoryStage: React.FC<MemoryStageProps> = ({
             setImageError(true);
             setImageLoaded(true);
           }}
-          className={`w-full max-h-[600px] object-cover transition-opacity duration-200 select-none pointer-events-none ${
+          className={`w-auto h-auto max-w-full max-h-[72vh] object-contain mx-auto rounded-lg transition-opacity duration-200 select-none pointer-events-none ${
             imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
         />
@@ -139,11 +139,17 @@ export const MemoryStage: React.FC<MemoryStageProps> = ({
             <span className="font-medium">รายละเอียดภาพสำรอง: {image.description}</span>
           </div>
         )}
+      </div>
 
-        {/* Clean alert badge */}
-        <div className="absolute bottom-4 right-4 bg-[#381F0D]/85 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium text-white flex items-center gap-2 shadow-sm">
-          <ShieldAlert className="w-4 h-4 text-amber-400" />
-          <span>ภาพจะถูกซ่อนเมื่อหมดเวลา</span>
+      {/* Helper Bar Placed OUTSIDE the Image to Avoid Covering Any Corner or Detail */}
+      <div className="mt-3 flex flex-col sm:flex-row items-center justify-between gap-2 px-2 text-xs sm:text-sm text-slate-600">
+        <div className="flex items-center gap-2 font-medium text-[#7A4B17]">
+          <ShieldAlert className="w-4 h-4 text-[#D97706] shrink-0" />
+          <span>จดจำรายละเอียดทั้งหมดในภาพ (ภาพจะถูกซ่อนทันทีเมื่อเวลาหมด)</span>
+        </div>
+        <div className="flex items-center gap-1.5 text-slate-400">
+          <Eye className="w-4 h-4 text-slate-400" />
+          <span>แสดงภาพเต็มสัดส่วน 100% ไม่ถูกตัดขอบ</span>
         </div>
       </div>
     </div>
