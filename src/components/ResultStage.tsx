@@ -285,20 +285,12 @@ export const ResultStage: React.FC<ResultStageProps> = ({
                         </strong>
                       </span>
                     ) : (
-                      <>
-                        <span>
-                          คำตอบของคุณ:{' '}
-                          <strong className={isCorrect ? 'text-emerald-700 font-bold' : 'text-rose-600 font-bold'}>
-                            {ans?.user_answer || 'ไม่ได้เลือก'}
-                          </strong>
-                        </span>
-                        {!isCorrect && (
-                          <span className="text-slate-500">
-                            • คำตอบที่ถูกต้อง:{' '}
-                            <strong className="text-slate-900 font-bold">{q.correct_answer}</strong>
-                          </span>
-                        )}
-                      </>
+                      <span>
+                        คำตอบของคุณ:{' '}
+                        <strong className={isCorrect ? 'text-emerald-700 font-bold' : 'text-rose-600 font-bold'}>
+                          {ans?.user_answer || 'ไม่ได้เลือก'}
+                        </strong>
+                      </span>
                     )}
                   </div>
                 </div>

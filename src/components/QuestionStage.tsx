@@ -248,7 +248,7 @@ export const QuestionStage: React.FC<QuestionStageProps> = ({
                   {isChallenge ? 'ไม่ผ่านภารกิจ' : 'ตอบไม่ถูกต้อง'}
                 </h3>
                 <p className="text-base text-slate-600">
-                  {isChallenge ? 'ไม่ได้คะแนนในข้อนี้ (0 คะแนน)' : `คำตอบที่ถูกต้องคือ: ${currentQuestion.correct_answer}`}
+                  ไม่ได้รับคะแนนในข้อนี้ (0 คะแนน)
                 </p>
               </>
             )}
